@@ -12,6 +12,7 @@ interface Event {
   location: string;
   eventDate: Date;
   capacity: number;
+  participants: number;
 }
 
 interface Props {
@@ -202,7 +203,8 @@ export default function EventsClient({ events }: Props) {
             })}
             location={event.location}
             category={event.category}
-            participants={0}
+            participants={event.participants}
+            capacity={event.capacity}
             organizer="EventHub"
             gradientFrom="from-blue-500"
             gradientTo="to-purple-600"

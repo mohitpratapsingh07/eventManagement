@@ -8,6 +8,26 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+export async function sendEmail(options: {
+  to: string;
+  subject: string;
+  html: string;
+}) {
+  try {
+    await transporter.sendMail({
+      from: `"EventHub" <${process.env.EMAIL_USER}>`,
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+    });
+
+    console.log(`Email sent successfully to ${options.to}`);
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Failed to send email");
+  }
+}
+
 export async function sendOTPEmail(email: string, otp: string) {
   try {
     await transporter.sendMail({

@@ -71,3 +71,42 @@ export async function cancelRegistration(
 
   revalidatePath("/dashboard/my-events");
 }
+
+export async function getUserCertificates(userId: string) {
+  try {
+    // Get all user registrations with event details
+    const registrations = await prisma.registration.findMany({
+      where: {
+        userId,
+        status: "confirmed", // Only show certificates for confirmed registrations
+      },
+      include: {
+        event: true,
+        user: true,
+      },
+      orderBy: {
+        registeredAt: "desc",
+      },
+    });
+
+    // Transform registrations into certificate format
+    const certificates = registrations.map((registration, index) => ({
+      id: registration.id,
+      certificateId: `CERT-${registration.user.id.slice(0, 8).toUpperCase()}-${String(index + 1).padStart(4, "0")}`,
+      userName: registration.user.name,
+      title: registration.event.title,
+      issuer: "Event Management System",
+      date: new Date(registration.registeredAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      eventId: registration.eventId,
+    }));
+
+    return certificates;
+  } catch (error) {
+    console.error("Error fetching certificates:", error);
+    return [];
+  }
+}

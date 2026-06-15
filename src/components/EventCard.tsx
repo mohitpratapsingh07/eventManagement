@@ -19,6 +19,7 @@ interface EventCardProps {
   image?: string;
   category: string;
   participants: number;
+  capacity: number;
   organizer: string;
   isFeatured?: boolean;
   gradientFrom: string;
@@ -32,9 +33,8 @@ export default function EventCard({
   location,
   category,
   participants,
+  capacity,
 }: EventCardProps) {
-
-  const capacity = 100;
 
   const { data: session } = useSession();
   const [participantsCount, setParticipantsCount] = useState<number>(participants);

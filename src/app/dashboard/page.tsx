@@ -124,8 +124,13 @@ export default async function DashboardPage() {
 
       <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
 
-        <DashboardHero userName={session.user.name ?? undefined} />
-
+        <DashboardHero
+          userName={session.user.name ?? undefined}
+          totalEvents={totalEvents}
+          registeredEvents={registeredEvents}
+          alerts={pendingNotifications}
+          certificates={certificates}
+        />
 
         <StatsSection
           totalEvents={totalEvents}

@@ -1,58 +1,27 @@
-'use client';
-
 import {
   Award,
   Calendar,
   ShieldCheck,
-  Download,
-  Eye,
 } from "lucide-react";
+import { auth } from "@/auth";
+import { getUserCertificates } from "@/actions/registrationActions";
 import CertificateCard from "@/components/certificate/CertificateCard";
+import { redirect } from "next/navigation";
 
-export default function CertificatesPage() {
+export default async function CertificatesPage() {
+  // Get current user session
+  const session = await auth();
 
-  const certificates = [
-  {
-    id: 1,
-    certificateId: "EH-2026-0001",
-    userName: "Piyush Gupta",
-    title: "Web Development Bootcamp",
-    issuer: "IT Department",
-    date: "20 May 2026",
-  },
-  {
-    id: 2,
-    certificateId: "EH-2026-0002",
-    userName: "Piyush Gupta",
-    title: "Advanced Python Programming",
-    issuer: "Programming Club",
-    date: "10 May 2026",
-  },
-  {
-    id: 3,
-    certificateId: "EH-2026-0003",
-    userName: "Piyush Gupta",
-    title: "UI/UX Design Workshop",
-    issuer: "Design Club",
-    date: "25 April 2026",
-  },
-  {
-    id: 4,
-    certificateId: "EH-2026-0004",
-    userName: "Piyush Gupta",
-    title: "Digital Marketing Essentials",
-    issuer: "Marketing Club",
-    date: "15 April 2026",
-  },
-  {
-    id: 5,
-    certificateId: "EH-2026-0005",
-    userName: "Piyush Gupta",
-    title: "Cloud Computing Basics",
-    issuer: "Tech Club",
-    date: "1 April 2026",
-  },
-];
+  // Redirect to login if not authenticated
+  if (!session?.user?.id) {
+    redirect("/auth/login");
+  }
+
+  // Fetch user's certificates
+  const certificates = await getUserCertificates(session.user.id);
+
+  // Calculate total hours (approximate - 3 hours per event)
+  const totalHours = certificates.length * 3;
 
   return (
     <div className="min-h-screen bg-slate-100">
@@ -105,7 +74,7 @@ export default function CertificatesPage() {
             />
 
             <h2 className="text-4xl font-bold text-slate-900">
-              5
+              {certificates.length}
             </h2>
 
             <p className="text-slate-500 mt-2">
@@ -122,7 +91,7 @@ export default function CertificatesPage() {
             />
 
             <h2 className="text-4xl font-bold text-slate-900">
-              24
+              {totalHours}
             </h2>
 
             <p className="text-slate-500 mt-2">
@@ -152,22 +121,30 @@ export default function CertificatesPage() {
 
         {/* Certificate Cards */}
 
-        <div className="grid lg:grid-cols-2 gap-7">
+        {certificates.length > 0 ? (
+          <div className="grid lg:grid-cols-2 gap-7">
 
-          {certificates.map((certificate) => (
+            {certificates.map((certificate) => (
 
-  <CertificateCard
-  key={certificate.id}
-  certificateId={certificate.certificateId}
-  userName={certificate.userName}
-  title={certificate.title}
-  issuer={certificate.issuer}
-  date={certificate.date}
-/>
+      <CertificateCard
+      key={certificate.id}
+      certificateId={certificate.certificateId}
+      userName={certificate.userName}
+      title={certificate.title}
+      issuer={certificate.issuer}
+      date={certificate.date}
+    />
 
-))}
+    ))}
 
-        </div>
+          </div>
+        ) : (
+          <div className="bg-white border border-slate-200 rounded-3xl p-12 shadow-sm text-center">
+            <Award size={48} className="mx-auto text-slate-300 mb-4" />
+            <h3 className="text-xl font-semibold text-slate-600">No Certificates Yet</h3>
+            <p className="text-slate-500 mt-2">Register for events to earn certificates</p>
+          </div>
+        )}
 
       </div>
 

@@ -6,7 +6,19 @@ export default async function EventsPage() {
     orderBy: {
       eventDate: "asc",
     },
+    include: {
+      _count: {
+        select: { registrations: true },
+      },
+    },
   });
 
-  return <EventsClient events={events} />;
+  // Transform events to include participants count
+  const eventsWithParticipants = events.map((event) => ({
+    ...event,
+    participants: event._count.registrations,
+    _count: undefined,
+  }));
+
+  return <EventsClient events={eventsWithParticipants as any} />;
 }

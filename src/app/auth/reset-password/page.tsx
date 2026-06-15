@@ -55,7 +55,7 @@ export default function ResetPasswordPage() {
           <input
             type="text"
             placeholder="Enter OTP"
-            className="w-full border p-3 rounded"
+            className="w-full border p-3 rounded text-gray-900 placeholder-gray-400"
             value={otp}
             onChange={(e) => setOTP(e.target.value)}
             required
@@ -64,7 +64,7 @@ export default function ResetPasswordPage() {
           <input
             type="password"
             placeholder="New Password"
-            className="w-full border p-3 rounded"
+            className="w-full border p-3 rounded text-gray-900 placeholder-gray-400"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required

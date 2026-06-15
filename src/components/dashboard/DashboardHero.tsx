@@ -6,9 +6,19 @@ import {
 
 interface DashboardHeroProps {
   userName?: string;
+  totalEvents?: number;
+  registeredEvents?: number;
+  alerts?: number;
+  certificates?: number;
 }
 
-export default function DashboardHero({ userName }: DashboardHeroProps) {
+export default function DashboardHero({
+  userName,
+  totalEvents = 0,
+  registeredEvents = 0,
+  alerts = 0,
+  certificates = 0,
+}: DashboardHeroProps) {
   return (
     <section className="bg-white border border-slate-200 rounded-3xl shadow-sm p-10">
 
@@ -74,7 +84,7 @@ export default function DashboardHero({ userName }: DashboardHeroProps) {
             />
 
             <h3 className="text-3xl font-bold text-slate-900">
-              24
+              {totalEvents}
             </h3>
 
             <p className="text-sm text-slate-500 mt-1">
@@ -96,7 +106,7 @@ export default function DashboardHero({ userName }: DashboardHeroProps) {
             />
 
             <h3 className="text-3xl font-bold text-slate-900">
-              8
+              {alerts}
             </h3>
 
             <p className="text-sm text-slate-500 mt-1">
@@ -118,7 +128,7 @@ export default function DashboardHero({ userName }: DashboardHeroProps) {
             />
 
             <h3 className="text-3xl font-bold text-slate-900">
-              5
+              {certificates}
             </h3>
 
             <p className="text-sm text-slate-500 mt-1">

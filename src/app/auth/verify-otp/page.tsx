@@ -45,7 +45,7 @@ export default function VerifyOTPPage() {
             type="email"
             value={email}
             readOnly
-            className="w-full border p-3 rounded bg-gray-100"
+            className="w-full border p-3 rounded bg-gray-100 text-gray-900"
           />
 
           <input
@@ -53,7 +53,7 @@ export default function VerifyOTPPage() {
             placeholder="Enter OTP"
             value={otp}
             onChange={(e) => setOTP(e.target.value)}
-            className="w-full border p-3 rounded"
+            className="w-full border p-3 rounded text-gray-900 placeholder-gray-400"
             required
           />
 
